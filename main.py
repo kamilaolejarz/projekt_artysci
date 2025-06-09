@@ -15,7 +15,6 @@ class Artist:
         self.marker = map_widget.set_marker(self.coordinates[0], self.coordinates[1],
                                             text=f'{self.name} {self.surname}')
 
-
     def get_coordinates(self) -> list:
         adres_url: str = f'https://pl.wikipedia.org/wiki/{self.location}'
         response_html = BeautifulSoup(requests.get(adres_url).text, "html.parser")
@@ -23,7 +22,6 @@ class Artist:
             float(response_html.select('.latitude')[1].text.replace(',', '.')),
             float(response_html.select('.longitude')[1].text.replace(',', '.')),
         ]
-
 
 def add_artist() -> None:
     name = entry_imie.get()
@@ -44,19 +42,16 @@ def add_artist() -> None:
     entry_imie.focus()
     show_artists()
 
-
 def show_artists() -> None:
     listbox_lista_obiektow.delete(0, END)
     for idx, artist in enumerate(artists):
         listbox_lista_obiektow.insert(idx, f'{idx + 1}. {artist.name} {artist.surname}')
-
 
 def remove_artist() -> None:
     i = listbox_lista_obiektow.index(ACTIVE)
     artists[i].marker.delete()
     artists.pop(i)
     show_artists()
-
 
 def edit_artist() -> None:
     i = listbox_lista_obiektow.index(ACTIVE)
@@ -71,7 +66,6 @@ def edit_artist() -> None:
     entry_posts.insert(0, posts)
 
     button_dodaj_objekt.config(text='Zapisz', command=lambda: update_artist(i))
-
 
 def update_artist(i) -> None:
     name = entry_imie.get()
@@ -185,4 +179,3 @@ map_widget.set_position(52.23, 21.00)
 map_widget.set_zoom(6)
 
 root.mainloop()
-
