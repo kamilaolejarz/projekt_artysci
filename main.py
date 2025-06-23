@@ -10,6 +10,7 @@ selected_artist_index = None
 selected_event_index = None
 selected_employee_index = None
 
+
 class Event:
     def __init__(self, name, location):
         self.name = name
@@ -21,6 +22,7 @@ class Event:
         soup = BeautifulSoup(requests.get(url).text, "html.parser")
         return [float(soup.select('.latitude')[1].text.replace(',', '.')),
                 float(soup.select('.longitude')[1].text.replace(',', '.'))]
+
 
 class Artist:
     def __init__(self, name, surname, location, posts, event_name):
@@ -66,7 +68,8 @@ def show_all_artists():
 def show_all_employees():
     clear_map()
     for e in employees:
-        current_markers.append(map_widget.set_marker(e.coordinates[0], e.coordinates[1], text=f"{e.name} {e.surname} ({e.role})"))
+        current_markers.append(
+            map_widget.set_marker(e.coordinates[0], e.coordinates[1], text=f"{e.name} {e.surname} ({e.role})"))
 
 
 def show_artists_for_event():
@@ -74,7 +77,8 @@ def show_artists_for_event():
     selected_event = combobox_events.get()
     for a in artists:
         if a.event_name == selected_event:
-            current_markers.append(map_widget.set_marker(a.coordinates[0], a.coordinates[1], text=f"{a.name} {a.surname}"))
+            current_markers.append(
+                map_widget.set_marker(a.coordinates[0], a.coordinates[1], text=f"{a.name} {a.surname}"))
 
 
 def show_employees_for_event():
@@ -82,7 +86,8 @@ def show_employees_for_event():
     selected_event = combobox_events.get()
     for e in employees:
         if e.event_name == selected_event:
-            current_markers.append(map_widget.set_marker(e.coordinates[0], e.coordinates[1], text=f"{e.name} {e.surname} ({e.role})"))
+            current_markers.append(
+                map_widget.set_marker(e.coordinates[0], e.coordinates[1], text=f"{e.name} {e.surname} ({e.role})"))
 
 
 def update_comboboxes():
@@ -138,7 +143,8 @@ def add_event():
 
 def add_artist():
     if combobox_event_artist.get():
-        a = Artist(entry_artist_name.get(), entry_artist_surname.get(), entry_artist_location.get(), entry_artist_posts.get(), combobox_event_artist.get())
+        a = Artist(entry_artist_name.get(), entry_artist_surname.get(), entry_artist_location.get(),
+                   entry_artist_posts.get(), combobox_event_artist.get())
         artists.append(a)
         clear_artist_form()
         show_artists()
@@ -146,7 +152,8 @@ def add_artist():
 
 def add_employee():
     if combobox_event_emp.get():
-        e = Employee(entry_emp_name.get(), entry_emp_surname.get(), entry_emp_role.get(), entry_emp_location.get(), combobox_event_emp.get())
+        e = Employee(entry_emp_name.get(), entry_emp_surname.get(), entry_emp_role.get(), entry_emp_location.get(),
+                     combobox_event_emp.get())
         employees.append(e)
         clear_employee_form()
         show_employees()
@@ -265,12 +272,13 @@ root = Tk()
 root.geometry("1600x1000")
 root.title("System Wydarzeń Kulturalnych")
 
-Label(root, text="System Wydarzeń Kulturalnych", font=("Helvetica", 24, "bold")).grid(row=0, column=0, columnspan=6, pady=10)
+Label(root, text="System Wydarzeń Kulturalnych", font=("Helvetica", 24, "bold")).grid(row=0, column=0, columnspan=6,
+                                                                                      pady=10)
 
 for i in range(6):
     root.grid_columnconfigure(i, weight=1)
 
-#Wydarzenia
+# Wydarzenia
 frame_event_list = Frame(root)
 frame_event_list.grid(row=1, column=0, padx=5, pady=5)
 Label(frame_event_list, text="Lista wydarzeń:").pack()
@@ -290,7 +298,7 @@ btn_add_event.grid(row=2, column=0, columnspan=2)
 Button(frame_events, text="Edytuj wydarzenie", command=edit_event).grid(row=3, column=0, columnspan=2)
 Button(frame_events, text="Usuń wydarzenie", command=remove_event).grid(row=4, column=0, columnspan=2)
 
-#Artyści
+# Artyści
 frame_artist_list = Frame(root)
 frame_artist_list.grid(row=1, column=2, padx=5, pady=5)
 Label(frame_artist_list, text="Lista artystów:").pack()
@@ -319,7 +327,7 @@ btn_add_artist.grid(row=5, column=0, columnspan=2)
 Button(frame_artists, text="Edytuj artystę", command=edit_artist).grid(row=6, column=0, columnspan=2)
 Button(frame_artists, text="Usuń artystę", command=remove_artist).grid(row=7, column=0, columnspan=2)
 
-#Pracownicy
+# Pracownicy
 frame_employee_list = Frame(root)
 frame_employee_list.grid(row=1, column=4, padx=5, pady=5)
 Label(frame_employee_list, text="Lista pracowników:").pack()
@@ -348,7 +356,7 @@ btn_add_employee.grid(row=5, column=0, columnspan=2)
 Button(frame_employees, text="Edytuj pracownika", command=edit_employee).grid(row=6, column=0, columnspan=2)
 Button(frame_employees, text="Usuń pracownika", command=remove_employee).grid(row=7, column=0, columnspan=2)
 
-#Funkcjonalność mapy(przyciski)
+# Funkcjonalność mapy(przyciski)
 frame_buttons = Frame(root)
 frame_buttons.grid(row=2, column=0, columnspan=2, pady=10)
 Button(frame_buttons, text="Pokaż wydarzenia", command=show_all_events).grid(row=0, column=0, padx=5)
@@ -361,7 +369,8 @@ Label(frame_map_buttons, text="Wybierz wydarzenie: ").grid(row=0, column=0, padx
 combobox_events = ttk.Combobox(frame_map_buttons, values=[], state="readonly")
 combobox_events.grid(row=0, column=1)
 Button(frame_map_buttons, text="Mapa artystów wydarzenia", command=show_artists_for_event).grid(row=0, column=2, padx=5)
-Button(frame_map_buttons, text="Mapa pracowników wydarzenia", command=show_employees_for_event).grid(row=0, column=3, padx=5)
+Button(frame_map_buttons, text="Mapa pracowników wydarzenia", command=show_employees_for_event).grid(row=0, column=3,
+                                                                                                     padx=5)
 
 frame_map = Frame(root)
 frame_map.grid(row=3, column=0, columnspan=6, sticky="nsew")
